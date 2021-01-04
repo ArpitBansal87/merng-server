@@ -11,6 +11,21 @@ const pubsub = new PubSub();
 const PORT = process.env.PORT || 5000;
 
 const server = new ApolloServer({
+  cors: {
+    credentials: true,
+    origin: (origin, callback) => {
+      const whitelist = [
+        "https://merng-social-networking.netlify.app/",
+        "http://dev.mylocalsite.com:3000/",
+      ];
+
+      if (whitelist.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+  },
   typeDefs,
   resolvers,
   context: ({ req }) => ({ req, pubsub }),
