@@ -14,9 +14,11 @@
     "apollo-link-context": "^1.0.20",
     "apollo-server": "^2.19.0",
     "bcryptjs": "^2.4.3",
+    "dotenv": "^8.2.0",
     "graphql": "^15.4.0",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.10.15"
+    "mongoose": "^5.10.15",
+    "trakt.tv": "^8.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"

@@ -29,6 +29,9 @@ module.exports = gql`
     username: String!
     createdAt: String!
   }
+  type traktAuthResponse {
+    url: String!
+  }
   input RegisterInput {
     username: String!
     password: String!
@@ -38,6 +41,7 @@ module.exports = gql`
   type Query {
     getPosts: [Post]
     getPost(postId: ID!): Post
+    traktLogin: traktAuthResponse
   }
   type Mutation {
     register(registerInput: RegisterInput): User!

@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const Trakt = require("trakt.tv");
 const { UserInputError } = require("apollo-server");
 
 const {
@@ -8,6 +9,15 @@ const {
 } = require("../../utils/validations");
 const { SECRET_KEY } = require("../../config");
 const User = require("../../models/User");
+
+let options = {
+  client_id: process.env.TRAKT_CLIENT_ID,
+  client_secret: process.env.TRAKT_CLIENT_SECRET,
+  redirect_uri: process.env.TRAKT_REDIRECT_URL,
+  api_url: process.env.TRAKT_API_URL,
+  useragent: process.env.TRAKT_USERAGENT,
+  pagination: process.env.TRAKT_PAGINATION,
+};
 
 function generateToken(user) {
   return jwt.sign(
@@ -22,6 +32,17 @@ function generateToken(user) {
 }
 
 module.exports = {
+  Query: {
+    async traktLogin() {
+      const trakt = new Trakt(options);
+
+      const traktAuthUrl = trakt.get_url();
+
+      return {
+        url: traktAuthUrl,
+      };
+    },
+  },
   Mutation: {
     async login(_, { username, password }) {
       const { errors, valid } = validateLoginInput(username, password);
@@ -44,6 +65,7 @@ module.exports = {
       }
 
       const token = generateToken(user);
+
       return {
         ...user._doc,
         id: user._id,
