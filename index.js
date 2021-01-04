@@ -15,9 +15,11 @@ const server = new ApolloServer({
     credentials: true,
     origin: (origin, callback) => {
       const whitelist = [
-        "https://merng-social-networking.netlify.app/",
-        "http://dev.mylocalsite.com:3000/",
+        "https://merng-social-networking.netlify.app",
+        "http://dev.mylocalsite.com:3000",
       ];
+
+      console.log(`Origin value ${origin}`);
 
       if (whitelist.indexOf(origin) !== -1) {
         callback(null, true);
